@@ -11,10 +11,56 @@ by taking:
 This means that both sides can publicly send this information to one another and still have safe encryption without
 Eve being able to read their messages.
 """
+from math import sqrt      # Takes the square root of a value
+from secrets import choice # Used to make a random number choice from a list
+
+def is_prime(number:int) -> bool:
+    """Checks if the provided value is a prime number
+    
+    Parameters
+    ----------
+    number : int
+        The value to validate is a prime number
+
+    Returns
+    -------
+    bool
+        True if value is a prime number
+    """
+    if number == 2 or number == 3: # Both 2 and 3 are primes
+        return True
+
+    elif number % 2 == 0 or number < 2: # No primes exist that are less than 2 or even (also covers negatives)
+        return False
+
+    # Steps by 2 from 3 (so all are odd) to the number square rooted + 1 (because possibleprevious numbers have already been checked)
+    for current_number in range(3 , int(sqrt(number)) + 1, 2):
+        if number % current_number == 0:
+            return False
+    return True
+
+def generate_prime_number(min_value=0, max_value=300):
+    """Generates a random prime number within the range min_value to max_value
+    
+    Parameters
+    ----------
+    min_value : int, optional
+        The smallest possible prime number you want, by default 0
+    max_value : int, optional
+        The largest possible prime number you want, by default 300
+    
+    Returns
+    -------
+    int
+        A randomly selected prime number in the range min_value to max_value
+    """
+    # Create a list of prime values within the range
+    primes = [number for number in range(min_value,max_value) if is_prime(number)]
+    return choice(primes)
 
 # Shared Variables; These are publicly sent between Alice and Bob
-shared_prime = 81    # p value
-shared_base = 20     # g value
+shared_prime = generate_prime_number()  # p value
+shared_base = 20                        # g value
 
 # Private secrets; These are only known by Alice and Bob respectively, but each doesn't know each others secret
 alice_secret = 6     # a value
