@@ -66,7 +66,7 @@ shared_base = 20                        # g value
 alice_secret = 6     # a value
 bob_secret = 15      # b value
 
- 
+
 # Alice Sends Bob A = g^a mod p
 A = (shared_base ** alice_secret) % shared_prime
 # Bob Sends Alice B = g^b mod p
@@ -77,7 +77,7 @@ print( f"""
 Alice and Bob agreed on shared prime of {shared_prime} & shared base of {shared_base}
 Alice Sends {A} to Bob over public channel (A)
 Bob Sends {B} to Alice over public channel (B)""" )
- 
+
 
 # Alice Computes Shared Secret: B^a mod p
 alice_calculated_secret = (B ** alice_secret) % shared_prime
