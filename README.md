@@ -12,7 +12,7 @@ There is an accompanying video that walks-through the python implementation that
   - [Functions](#functions)    
 - [Theory](#theory)        
   - [1. Background](#1-background)        
-  - [2. Secret Generation](#2-secret-generation)       
+  - [2. Initial Variables and Secret Generation](#2-initial-variables-and-secret-generation)       
   - [3. Public Secret Exchange](#3-public-secret-exchange)       
   - [4. Handshake](#4-handshake)      
 
@@ -63,6 +63,8 @@ Throughout the files I use a set of standardized terms to refer to variables and
 
 ***Decrypt***: ...
 
+***Save***: ...
+
 
 
 ***Save***: Takes in either a string or char array based on which language it is, and a file path then serializes the string/char array to the path provided.
@@ -97,7 +99,7 @@ The exchange relies on a somewhat complicated principle of [moduli](https://en.w
 
 
 
-### 2. Secret Generation
+### 2. Initial Variables and Secret Generation
 
 ...
 
