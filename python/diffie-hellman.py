@@ -25,15 +25,16 @@ def is_prime(number:int) -> bool:
     elif number % 2 == 0 or number < 2: # No primes exist that are less than 2 or even (also covers negatives)
         return False
 
-    # Steps by 2 from 3 (so all are odd) to the number square rooted + 1 (because possibleprevious numbers have already been checked)
+    # Steps by 2 from 3 (so all are odd) to the number square rooted + 1 (because possible previous numbers have already been checked)
     for current_number in range(3 , int(sqrt(number)) + 1, 2):
         if number % current_number == 0:
             return False
+
     return True
 
 def generate_prime_number(min_value=0, max_value=300):
     """Generates a random prime number within the range min_value to max_value
-    
+
     Parameters
     ----------
     min_value : int, optional
@@ -41,7 +42,7 @@ def generate_prime_number(min_value=0, max_value=300):
 
     max_value : int, optional
         The largest possible prime number you want, by default 300
-    
+
     Returns
     -------
     int
@@ -51,9 +52,9 @@ def generate_prime_number(min_value=0, max_value=300):
     primes = [number for number in range(min_value,max_value) if is_prime(number)]
     return choice(primes)
 
-def save(p:int, g:int, a:int, b:int, A:int, B:int, s:int, path:str="exchange.txt") -> str:
+def save(p:int, g:int, a:int, b:int, A:int, B:int, a_s:int, b_s:int, path:str="exchange.txt") -> str:
     """Takes in all the variables needed to perform Diffie-Hellman and stores a text record of the exchange.
-    
+
     Parameters
     ----------
     p : int
@@ -68,8 +69,10 @@ def save(p:int, g:int, a:int, b:int, A:int, B:int, s:int, path:str="exchange.txt
         Alice's public secret
     B : int
         Bob's public secret
-    s : int
-        The calculated shared secret
+    a_s : int
+        Alice's calculated common secret
+    b_s : int
+        Bob's calculated common secret
     path : str, optional
         The path to save the output file to, by default "exchange.txt":str
 
@@ -81,7 +84,7 @@ def save(p:int, g:int, a:int, b:int, A:int, B:int, s:int, path:str="exchange.txt
     Notes
     -----
     * For better definitions of each of the variables see the readme in the root directory
-    
+
     """
     exchange = "Begin of exchange\n\n" # The variable that holds the description of the exchange
 
@@ -95,33 +98,40 @@ def save(p:int, g:int, a:int, b:int, A:int, B:int, s:int, path:str="exchange.txt
     exchange += f"Alice and Bob now compute their public secrets and send them to each other. \nThese are represented as A and B respectively (eve knows these also):\n\tA = g^a mod p = {A}\n\tB = g^b mod p = {B}\n\n"
 
     # Handshake
-    exchange += f"Alice and Bob can now calculate a common secret that can be used to encrypt later transmissions:\n\tAlice's Calculation: \n\t\ts = B^a mod p = {s} \n\tBob's Calculation: \n\t\ts = A^b mod p = {s}"
+    exchange += f"Alice and Bob can now calculate a common secret that can be used to encrypt later transmissions:\n\tAlice's Calculation: \n\t\ts = B^a mod p = {a_s} \n\tBob's Calculation: \n\t\ts = A^b mod p = {b_s}"
 
     with open(path, "w+") as output_file:
         output_file.write(exchange)
-    
+
     return exchange
 
 if __name__ == "__main__":
-    # Shared Variables; These are publicly sent between Alice and Bob
+    # ==== Shared Variables ====
+
+    # These are publicly sent between Alice and Bob
     shared_prime = generate_prime_number()  # p value
     shared_base =  int(token_hex(2), 16)    # g value
 
-    # Private secrets; These are only known by Alice and Bob respectively, but each doesn't know each others secret
+    # ==== Private secrets ====
+
+    # These are only known by Alice and Bob respectively, but each doesn't know each others secret
     alice_secret = int(token_hex(2), 16)     # a value
     bob_secret = int(token_hex(2), 16)       # b value
 
+    # ==== Public key generation & exchange ====
 
     # Alice Sends Bob A = g^a mod p (in this case A == alice_public)
     alice_public = (shared_base ** alice_secret) % shared_prime
-
     # Bob Sends Alice B = g^b mod p (in this case B == bob_public)
     bob_public = (shared_base ** bob_secret) % shared_prime
+
+    # ==== Common Secret Calculation ====
 
     # Alice Computes Shared Secret: s = B^a mod p
     alice_calculated_secret = (bob_public ** alice_secret) % shared_prime
     # Bob Computes Shared Secret: s = A^b mod p
     bob_calculated_secret = (alice_public ** bob_secret) % shared_prime
 
+    # Create a text record of the excange, save it to a text file and print it to stdout
     exchange = save(shared_prime, shared_base, alice_secret, bob_secret, alice_public, bob_public, alice_calculated_secret)
     print(exchange)
