@@ -14,7 +14,7 @@ There is an accompanying video that walks-through the python implementation that
   - [1. Background](#1-background)        
   - [2. Initial Variables and Secret Generation](#2-initial-variables-and-secret-generation)       
   - [3. Public Secret Exchange](#3-public-secret-exchange)       
-  - [4. Handshake](#4-handshake)      
+  - [4. Common Secret Calculation](#4-common-secret-calculation)      
 
 
 ## Usage
@@ -33,19 +33,23 @@ Throughout the files I use a set of standardized terms to refer to variables and
 
 *The letter values are what is used in the technical explanation so I have included both the letter representations (as they are in the proofs) and a more colloquial name for what they represent.*
 
-***Shared Prime | p***: ...
+***Shared Prime | p***: This is a number decided upon by both Alice and Bob (eve knows this also), that is a **prime number** which is used in the various modulus calculations explained later.
 
-***Shared Base | g***: ...
+***Shared Base | g***: This is an arbitrary number decided upon by both Alice and Bob (eve knows this also), that has no requirements beyond being positive and each member knowing about it.
 
-***Alice Secret | a***: ...
+***Alice Secret | a***: This is a secret that only Alice knows, and is used to calculate her public key (*A*) and the common secret (***s*** and ***a_s***).
 
-***Bob Secret | b***: ...
+***Bob Secret | b***: This is a secret that only Bob knows, and is used to calculate his public key (*B*) and the common secret (***s*** and ***b_s***).
 
-***Alice Public | A***: ...
+***Alice Public | A***: Alice's public key that is sent to Bob (and it is assumed that eve also knows it) and it used to calculate ***s*** and ***b_s***
 
-***Bob Public | B***: ...
+***Bob Public | B***: Bob's public key that is sent to Alice (and it is assumed that eve also knows it) and it used to calculate ***s*** and ***a_s***
 
-***Common Secret | s***: ...
+***Common Secret | s***:  The secret that is calculated by each after the exchange of the public secrets. Naturally this implies that a_s == s == b_s (otherwise something has gone wrong).
+
+***Alice Calculated Common Secret | a_s***: Alice's calculated common secret, if the exchange is done properly then a_s == s == b_s .
+
+***Bob Calculated Common Secret | b_s***: Bob's calculated common secret, if the exchange is done properly then a_s == s == b_s .
 
 
 
@@ -55,19 +59,11 @@ Throughout the files I use a set of standardized terms to refer to variables and
 
 
 
-***Is Prime***: ...
+***Is Prime***: Takes in a number and returns true if the value is a prime number, get's called by generate prime in order to validate random number is a prime number.
 
-***Generate Prime***: ...
+***Generate Prime***: Generates a random prime number within a specified range (needs to be low range in languages with different types of integers to avoid overflow like rust)
 
-***Encrypt***: ...
-
-***Decrypt***: ...
-
-***Save***: ...
-
-
-
-***Save***: Takes in either a string or char array based on which language it is, and a file path then serializes the string/char array to the path provided.
+***Save***: Takes in all the variables needed to perform Diffie-Hellman and stores a text record of the exchange (exchange.txt), and also returns it so it can be printed later
 
 
 ## Theory
@@ -78,13 +74,13 @@ Throughout the files I use a set of standardized terms to refer to variables and
 
 ### 1. Background
 
-It's useful to mention that the Diffie-Hellman key exchange is **not** an encryption protocol, in and of itself. It is used for generating a **common secret** which can be used with another form of encryption to encrypt and decrypt traffic. In other words it tells both people what the 'key' to the lock should look like, but not how to lock the information itself.
+It's useful to mention that the Diffie-Hellman key exchange is **not** an encryption protocol, in and of itself. It is used for generating a **common secret** which can be used with another form of encryption to encrypt and decrypt traffic. In other words it tells both people what the 'key' to the lock should look like, but not how to lock the information itself. The idea being each person can exchange a public key (that even Eve knows) and end up with the same 'private key' or shared/common secret.
 
 
 
 The exchange relies on a somewhat complicated principle of [moduli](https://en.wikipedia.org/wiki/Modulo_operation) (the remainder of a division). If you are interested in proofs of why this works you can take a look at [Fermatt's Little Theorem](https://en.wikipedia.org/wiki/Fermat's_little_theorem) & the Wikipedia page on [Diffie-Hellman]([https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange](https://en.wikipedia.org/wiki/Diffie–Hellman_key_exchange)) for details. The important things to know that make this protocol work are:
 
-1. Each party (alice and bob) needs to generate their own secret (a number)
+1. Each party (Alice and Bob) needs to generate their own secret (a number)
 
 2. If the same set of procedures is done on two secrets they can generate a third 'common' secret
 
@@ -111,7 +107,7 @@ The exchange relies on a somewhat complicated principle of [moduli](https://en.w
 
 
 
-### 4. Handshake
+### 4. Common Secret Calculation
 
 ...
 
