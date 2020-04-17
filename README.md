@@ -97,7 +97,7 @@ The exchange relies on a somewhat complicated principle of [moduli](https://en.w
 
 ### 2. Initial Variables and Secret Generation
 
-...
+There are a number of pieces of public and private variables needed to do Diffiie Hellman. First both Alice and Bob will need Private keys, these will not be known by anyone except the one who generated it. Next they will need a shared prime number and a shared base, both of which are public and Alice, Bob, and Eve know it.
 
 
 
