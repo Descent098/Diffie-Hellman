@@ -133,5 +133,5 @@ if __name__ == "__main__":
     bob_calculated_secret = (alice_public ** bob_secret) % shared_prime
 
     # Create a text record of the excange, save it to a text file and print it to stdout
-    exchange = save(shared_prime, shared_base, alice_secret, bob_secret, alice_public, bob_public, alice_calculated_secret)
+    exchange = save(shared_prime, shared_base, alice_secret, bob_secret, alice_public, bob_public, alice_calculated_secret, bob_calculated_secret)
     print(exchange)

@@ -97,17 +97,59 @@ The exchange relies on a somewhat complicated principle of [moduli](https://en.w
 
 ### 2. Initial Variables and Secret Generation
 
-There are a number of pieces of public and private variables needed to do Diffiie Hellman. First both Alice and Bob will need Private keys, these will not be known by anyone except the one who generated it. Next they will need a shared prime number and a shared base, both of which are public and Alice, Bob, and Eve know it.
+There are a number of pieces of public and private variables needed to do Diffiie Hellman. First both Alice and Bob will need Private keys, these will not be known by anyone except the one who generated it. Next they will need a shared prime (***p***) number and a shared base (***g***), both of which are public so Alice, Bob, and Eve know it.
+
+
+
+For this example let's assume:
+
+```
+g = 25531
+p = 283
+a = 5647
+b = 12771
+```
 
 
 
 ### 3. Public Secret Exchange
 
-....
+Now that you have ***p*** and ***g*** Alice and bob will send their public secret (***A*** and ***B***) to each other. This secret is calculated using:
+
+```
+g^(a) mod p = A
+g^(b) mod p = B
+```
+
+Because this is a public secret it is also assumed that Eve knows these values.
+
+
+
+Using our example Values from earlier this means:
+
+```
+A = (25531^5647) mod 283  = 141
+B = (25531^12771) mod 283 = 244
+```
 
 
 
 ### 4. Common Secret Calculation
 
-...
+Now that Bob has Alice's secret (and vice versa),  they can calculate a common (or shared) secret (***s*** is the value, and each calculated value will be represented by ***a_s*** and ***b_s*** respectively). These are calculated using the formula:
+
+```
+B^a mod p = common secret
+A^b mod p = common secret
+```
+
+This means that both Bob and Alice have a shared secret that cannot be calculated by Eve because she does not have one of the original private secrets needed to do this calculation. In our example from before this would be:
+
+```
+a_s = (244^5647) mod 283  = 15
+b_s = (141^12771) mod 283 = 15
+s = 15
+```
+
+Now they can use the ***s*** value in some form of encryption since they both (Alice and Bob) know it, but Eve does not.
 
