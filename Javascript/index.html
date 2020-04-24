@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTP Demo</title>
+    <title>Diffie-Hellman Exchange</title>
     <!--Stylesheet used because writing your own CSS takes effort, check it out on https://bulma.io/-->
     <link rel="stylesheet" href="bulma.css"/>
 </head>
@@ -19,8 +19,8 @@
     </div>
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item" href="https://github.com/Descent098/simple-otp/blob/master/Javascript/otp.js" target="_blank">Source</a>
-            <a class="navbar-item" href="https://github.com/Descent098/simple-otp#theory" target="_blank">Explanation</a>
+            <a class="navbar-item" href="https://github.com/Descent098/Diffie-Hellman/blob/master/Javascript/diffie-hellman.js" target="_blank">Source</a>
+            <a class="navbar-item" href="https://github.com/Descent098/Diffie-Hellman#theory" target="_blank">Explanation</a>
         </div>
     </div>
 </nav>
@@ -28,17 +28,98 @@
 
 <body>
     <div class="columns">
-        <div class="column is-4">
+        <div class="column">
             <div class="card">
                 <div class="card-content">
-                    <p class="title">Shared Prime</p>
-                    <!--This tag will be overwritten with the resulting sharedPrime on page load-->
-                    <p id="sharedPrime"></p>
+                    <p class="title">Public Variables</p>
+                    <p>All of the variables in this card are visible to Alice, Bob and Eve.</p>
+                    </br>
+                
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="card">
+                                <div class="card-content">
+                                    <p class="title">Shared Prime</p>
+                                    <!--This tag will be overwritten with the resulting sharedPrime on page load-->
+                                    <p id="sharedPrime"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="card">
+                                <div class="card-content">
+                                    <p class="title">Shared Base</p>
+                                    <!--This tag will be overwritten with the resulting sharedBase on page load-->
+                                    <p id="sharedBase"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="card">
+                                <div class="card-content">
+                                    <p class="title">Alice's Public Key</p>
+                                    <!--This tag will be overwritten with the resulting alicePublic on page load-->
+                                    <p id="alicePublic"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="card">
+                                <div class="card-content">
+                                    <p class="title">Bob's Public Key</p>
+                                    <!--This tag will be overwritten with the resulting bobPublic on page load-->
+                                    <p id="bobPublic"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <div class="card">
+                <div class="card-content">
+                    <p class="title">Private Variables</p>
+                    <p>These values are only seen by the individuals (Alice and Bob)</p>
+                    </br>
+
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="card">
+                                <div class="card-content">
+                                    <p class="title">Alice's Private Variables</p>
+                                    <p id="aliceSecret"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column is-6">
+                            <div class="card">
+                                <div class="card-content">
+                                    <p class="title">Bob's Private Variables</p>
+                                    <p id="bobSecret"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
-<!--Bring in the diffie-hellman.js file and run it-->
-<script src="diffie-hellman.js"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+    <!--Bring in the diffie-hellman.js file and run it-->
+    <script src="diffie-hellman.js"></script>
+
 </html>

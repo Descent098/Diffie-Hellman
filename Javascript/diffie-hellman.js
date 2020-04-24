@@ -47,6 +47,7 @@ var bobPublic = Math.pow(sharedBase, bobSecret) % sharedPrime     //B
 
 // Alice Computes Shared Secret: s = B^a mod p
 // Bob Computes Shared Secret: s = A^b mod p
+// BUG: These values differ on non-zero values
 var aliceCalculatedSecret = Math.pow(bobPublic, aliceSecret) % sharedPrime
 var bobCalculatedSecret = Math.pow(alicePublic, bobSecret) % sharedPrime
 
@@ -60,3 +61,9 @@ console.log("Bob's Calculated Secret is: " + bobCalculatedSecret)
 
 // Write variables to HTML elements
 document.getElementById("sharedPrime").innerText = sharedPrime
+document.getElementById("sharedBase").innerText = sharedBase
+document.getElementById("alicePublic").innerText = alicePublic
+document.getElementById("bobPublic").innerText = bobPublic
+
+document.getElementById("aliceSecret").innerText = "Alice's Private Secret " + aliceSecret + "\nAlice's Calculated Secret " + aliceCalculatedSecret 
+document.getElementById("bobSecret").innerText = "Bob's Private Secret " + bobSecret + "\nBob's Calculated Secret " + bobCalculatedSecret 
